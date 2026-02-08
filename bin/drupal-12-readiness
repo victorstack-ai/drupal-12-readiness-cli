@@ -5,7 +5,9 @@ require __DIR__ . '/../vendor/autoload.php';
 
 use Symfony\Component\Console\Application;
 use Drupal12Readiness\Command\ScanCommand;
+use Drupal12Readiness\Command\DatabaseAuditCommand;
 
 $application = new Application('Drupal 12 Readiness CLI', '1.0.0');
 $application->add(new ScanCommand());
+$application->add(new DatabaseAuditCommand());
 $application->run();

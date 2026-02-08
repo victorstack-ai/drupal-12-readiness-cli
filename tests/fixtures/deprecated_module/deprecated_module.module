@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * @file
+ * A test module with deprecated code.
+ */
+
+function deprecated_module_preprocess_node(&$variables) {
+  // Deprecated db_query.
+  $result = db_query("SELECT nid FROM {node} LIMIT 1");
+  
+  // Deprecated db_select.
+  $query = db_select('users', 'u');
+  $query->fields('u', ['uid', 'name']);
+  $result = $query->execute();
+
+  // Valid usage (should not be flagged)
+  $database = \Drupal::database();
+  $result2 = $database->query("SELECT nid FROM {node}");
+}
