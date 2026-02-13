@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'victorstack-ai/drupal-12-readiness-cli',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => null,
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '69ee7bbaed9f492cf2a96f3085747d11c7942c86',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -938,9 +938,9 @@
             'dev_requirement' => true,
         ),
         'victorstack-ai/drupal-12-readiness-cli' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => null,
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '69ee7bbaed9f492cf2a96f3085747d11c7942c86',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
