@@ -17,7 +17,7 @@ class ScanCommandTest extends TestCase
         $process->run();
 
         $output = $process->getOutput();
-        
+
         $this->assertStringContainsString('Scanning', $output);
         $this->assertStringContainsString('DeprecatedClass.php', $output);
         // PHPStan should catch the deprecated call

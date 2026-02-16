@@ -23,9 +23,9 @@ class DatabaseAuditCommand extends Command
         'db_transaction' => 'Use \Drupal::database()->startTransaction() or injected connection',
         'db_close' => 'Database connections are closed automatically',
         'db_next_id' => 'Use sequences or auto-increment',
-        'db_or' => 'Use \Drupal::database()->condition('OR')',
-        'db_and' => 'Use \Drupal::database()->condition('AND')',
-        'db_xor' => 'Use \Drupal::database()->condition('XOR')',
+        'db_or' => 'Use \Drupal::database()->condition(' or ')',
+        'db_and' => 'Use \Drupal::database()->condition(' and ')',
+        'db_xor' => 'Use \Drupal::database()->condition(' xor ')',
         'db_condition' => 'Use \Drupal::database()->condition()',
         'db_like' => 'Use \Drupal::database()->escapeLike()',
         'db_driver' => 'Use \Drupal::database()->driver()',
@@ -118,7 +118,11 @@ class DatabaseAuditCommand extends Command
             return Command::SUCCESS;
         }
 
-        $io->warning(sprintf("Found %d instances of deprecated Database API usage in %d files:", count($issues), $totalFiles));
+        $io->warning(sprintf(
+            "Found %d instances of deprecated Database API usage in %d files:",
+            count($issues),
+            $totalFiles
+        ));
 
         $rows = [];
         foreach ($issues as $issue) {
