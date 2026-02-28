@@ -2,9 +2,11 @@
 
 namespace Drupal12Readiness\Command;
 
+use Drupal12Readiness\Report\HtmlReportGenerator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
@@ -53,7 +55,8 @@ class DatabaseAuditCommand extends Command
         $this
             ->setName('check:db-api')
             ->setDescription('Audit code for deprecated procedural Database API calls.')
-            ->addArgument('path', InputArgument::REQUIRED, 'The path to the Drupal project or module to scan.');
+            ->addArgument('path', InputArgument::REQUIRED, 'The path to the Drupal project or module to scan.')
+            ->addOption('output', 'o', InputOption::VALUE_REQUIRED, 'Output format: table (default) or html', 'table');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -113,6 +116,18 @@ class DatabaseAuditCommand extends Command
             }
         }
 
+        $outputFormat = $input->getOption('output');
+
+        // Handle HTML output format.
+        if ($outputFormat === 'html') {
+            $generator = new HtmlReportGenerator();
+            $html = $generator->generate($issues, $realPath, $totalFiles, 'check:db-api');
+            $outputFile = $realPath . '/drupal12-db-api-report.html';
+            $writtenPath = $generator->writeToFile($html, $outputFile);
+            $io->success("HTML report written to: $writtenPath");
+            return empty($issues) ? Command::SUCCESS : Command::FAILURE;
+        }
+
         if (empty($issues)) {
             $io->success("Scan complete. No procedural Database API calls found in $totalFiles files.");
             return Command::SUCCESS;
@@ -130,7 +145,7 @@ class DatabaseAuditCommand extends Command
                 $issue['file'] . ':' . $issue['line'],
                 $issue['function'],
                 $issue['context'],
-                $issue['replacement']
+                $issue['replacement'],
             ];
         }
 
